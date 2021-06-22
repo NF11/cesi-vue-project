@@ -1,24 +1,51 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+import Me from "@/views/livreur/Me";
+import CommandesList from "@/views/commandes/CommandesList";
+import MyCommandeList from "@/views/commandes/MyCommandeList";
+import Register from "@/views/livreur/Register";
+import NotFound from "@/views/NotFound";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    name: "Home",
-    component: Home,
+    redirect: "/commandes",
   },
   {
-    path: "/about",
-    name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue"),
+    path: "/me",
+    name: "Me",
+    component: Me,
   },
+  {
+    path: "/commandes",
+    name: "Commandes",
+    component: CommandesList,
+  },
+  {
+    path: "/my-commande",
+    name: "MyCommande",
+    component: MyCommandeList,
+  },
+  {
+    path: "/inscription",
+    name: "Register",
+    component: Register,
+  },
+  {
+    path: "/:notFound(.*)",
+    component: NotFound,
+  },
+  // {
+  //   path: "/about",
+  //   name: "About",
+  //   // route level code-splitting
+  //   // this generates a separate chunk (about.[hash].js) for this route
+  //   // which is lazy-loaded when the route is visited.
+  //   component: () =>
+  //     import(/* webpackChunkName: "about" */ "../views/About.vue"),
+  // },
 ];
 
 const router = new VueRouter({
