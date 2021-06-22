@@ -5,6 +5,7 @@ import CommandesList from "@/views/commandes/CommandesList";
 import MyCommandeList from "@/views/commandes/MyCommandeList";
 import Register from "@/views/livreur/Register";
 import NotFound from "@/views/NotFound";
+import Login from "@/views/livreur/Login";
 
 Vue.use(VueRouter);
 
@@ -32,6 +33,11 @@ const routes = [
     path: "/inscription",
     name: "Register",
     component: Register,
+  },
+  {
+    path: "/login",
+    name: "Login",
+    component: Login,
   },
   {
     path: "/:notFound(.*)",

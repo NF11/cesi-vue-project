@@ -7,6 +7,7 @@
         <li><router-link to="/me">Mon profile</router-link></li>
         <li><router-link to="/my-commande">Parrainage</router-link></li>
         <li><router-link to="/inscription">Inscription</router-link></li>
+        <li><router-link to="/login">Connexion</router-link></li>
       </ul>
     </nav>
   </header>
