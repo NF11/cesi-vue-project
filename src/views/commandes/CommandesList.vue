@@ -1,35 +1,72 @@
 <template>
-  <ul v-if="hasCommandes">
+  <section>
+    <base-dialog :show="!!error" title="Erreur" @close="handleError">
+      <p>{{ error }}</p>
+    </base-dialog>
     <base-card>
       <h3 class="controls">Liste des commande</h3>
-      <div v-for="commande in filteredCommandes" :key="commande._id">
-        <commande-item
-          :id="commande._id"
-          :restaurant-name="commande._id"
-          :status="commande.status"
-          v-if="isCommandes(commande.status)"
+      <div class="controls">
+        <base-button mode="outline" @click="loadCommandes"
+          >Rafraichir</base-button
         >
-        </commande-item>
       </div>
+      <div v-if="isLoading">
+        <base-spinner></base-spinner>
+      </div>
+      <ul v-else-if="hasCommandes">
+        <li v-for="commande in filteredCommandes" :key="commande._id">
+          <commande-item
+            :id="commande._id"
+            :address="commande.address"
+            :contact-info="commande.clientId"
+            :restaurant-info="commande.restaurateurId"
+            :status="commande.status"
+            :price="commande.totalPrice"
+            v-if="isCommandes(commande.status)"
+          >
+          </commande-item>
+        </li>
+      </ul>
+      <h3 v-else>pas de commande pour le moment</h3>
     </base-card>
-  </ul>
-  <h3 v-else>pas de commande pour le moment</h3>
+  </section>
 </template>
 
 <script>
 import CommandeItem from "@/components/commandes/CommandeItem";
 import BaseCard from "@/components/ui/BaseCard";
+import BaseButton from "@/components/ui/BaseButton";
+import BaseSpinner from "@/components/ui/BaseSpinner";
+import BaseDialog from "@/components/ui/BaseDialog";
 export default {
   name: "CommandesList",
-  components: { BaseCard, CommandeItem },
+  components: { BaseDialog, BaseSpinner, BaseButton, BaseCard, CommandeItem },
   props: {
     filter: {
       required: false,
     },
   },
+  data() {
+    return { isLoading: false, error: null };
+  },
+  created() {
+    this.loadCommandes();
+  },
   methods: {
     isCommandes(status) {
       return status === "acceptationCommande";
+    },
+    async loadCommandes() {
+      this.isLoading = true;
+      try {
+        await this.$store.dispatch("loadCommandes");
+      } catch (err) {
+        this.error = err.message;
+      }
+      this.isLoading = false;
+    },
+    handleError() {
+      this.error = null;
     },
   },
   computed: {
@@ -37,7 +74,7 @@ export default {
       return this.$store.getters.getCommandes;
     },
     hasCommandes() {
-      return this.$store.getters.hasCommandes;
+      return !this.isLoading && this.$store.getters.hasCommandes;
     },
   },
 };

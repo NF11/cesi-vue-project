@@ -1,9 +1,15 @@
 <template>
   <li>
-    <h3>restaurant num {{ restaurantName }}</h3>
+    <h3>Restaurant le {{ restaurantInfo.name }}</h3>
     <base-badge :title="changeStatusName" :type="status"></base-badge>
     <div>
-      <span>address : {{ fakeAddress }}</span>
+      <span>Address de livraison : {{ address }}</span>
+    </div>
+    <div>
+      <span>Numéro du client : {{ contactInfo.phone }}</span>
+    </div>
+    <div>
+      <span>Prix total : {{ price }}</span>
     </div>
     <div class="actions" v-if="this.status === 'acceptationLivraison'">
       <base-button mode="drop">Annuler</base-button>
@@ -21,7 +27,7 @@ import BaseBadge from "@/components/ui/BaseBadge";
 export default {
   name: "CommandeItem",
   components: { BaseBadge, BaseButton },
-  props: ["id", "restaurantName", "status"],
+  props: ["id", "status", "address", "contactInfo", "restaurantInfo", "price"],
   computed: {
     fakeAddress() {
       return faker.address.streetName() + " " + faker.address.streetAddress();

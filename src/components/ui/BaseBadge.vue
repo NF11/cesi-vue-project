@@ -1,5 +1,8 @@
 <template>
-  <span class="badge" :class="type"> status : {{ text }} </span>
+  <div>
+    Status
+    <span class="badge" :class="type"> {{ text }} </span>
+  </div>
 </template>
 
 <script>
@@ -22,6 +25,7 @@ export default {
   padding: 0.5rem 1.5rem;
   display: inline-block;
   margin-right: 0.5rem;
+  float: right;
 }
 
 .acceptationCommande {
