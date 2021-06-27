@@ -1,14 +1,14 @@
 <template>
   <section>
-    <base-dialog :show="!!error" title="Erreur" @close="handleError">
+    <base-dialog :show="!!error" title="Info" @close="handleError">
       <p>{{ error }}</p>
     </base-dialog>
     <base-card>
       <h3 class="controls">Mes Commandes</h3>
       <div class="controls mb-3">
-        <base-button mode="outline" @click="loadMyCommandes"
-          >Rafraichir</base-button
-        >
+        <button class="btn btn-outline-primary btn-sm" @click="loadMyCommandes">
+          Rafraichir
+        </button>
       </div>
       <div v-if="isLoading">
         <base-spinner></base-spinner>
@@ -23,6 +23,7 @@
             :restaurant-info="commande.restaurateurId"
             :status="commande.status"
             :price="commande.totalPrice"
+            @annulerCommande="annulerCommande"
           >
           </commande-item>
         </div>
@@ -82,6 +83,19 @@ export default {
       } catch (err) {
         this.error = err.message;
       }
+      this.isLoading = false;
+    },
+    async annulerCommande(id) {
+      this.isLoading = true;
+      try {
+        const result = await this.$store.dispatch("annulerCommandes", id);
+        console.log(result);
+        if (result === "ok") this.error = "La livraison a étais annuler";
+        else this.error = "La commande est deja prise";
+      } catch (e) {
+        this.error = e.message;
+      }
+      await this.loadMyCommandes();
       this.isLoading = false;
     },
     handleError() {

@@ -30,6 +30,14 @@ export default {
       type: String,
       required: false,
     },
+    message: {
+      type: String,
+      required: false,
+    },
+    color: {
+      type: String,
+      required: false,
+    },
     fixed: {
       type: Boolean,
       required: false,
@@ -74,8 +82,15 @@ dialog {
   background-color: white;
 }
 
-header {
-  background-color: #3a0061;
+.danger {
+  background-color: #610022;
+  color: white;
+  width: 100%;
+  padding: 1rem;
+}
+
+.good {
+  background-color: #226100;
   color: white;
   width: 100%;
   padding: 1rem;

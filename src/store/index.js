@@ -57,6 +57,38 @@ export default new Vuex.Store({
         throw new Error("impossible d'accéder a la ressource");
       }
     },
+
+    async accepteCommandes(context, commandeId) {
+      try {
+        let result = await axios.patch(
+          baseUrl + "/commandes/" + commandeId + "/accepter",
+          {
+            livreurId: context.getters.getUser._id,
+          }
+        );
+        if (result.status === 202) {
+          return result.data.message;
+        } else return "ok";
+      } catch (err) {
+        throw new Error(err.message);
+      }
+    },
+
+    async annulerCommandes(context, commandeId) {
+      try {
+        let result = await axios.patch(
+          baseUrl + "/commandes/" + commandeId + "/annuler",
+          {
+            livreurId: context.getters.getUser._id,
+          }
+        );
+        if (result.status === 202) {
+          return result.data.message;
+        } else return "ok";
+      } catch (err) {
+        throw new Error(err.message);
+      }
+    },
   },
   getters: {
     getCommandes(state) {

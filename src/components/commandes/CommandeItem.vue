@@ -12,21 +12,24 @@
       <span>Prix total : {{ price }}</span>
     </div>
     <div class="actions" v-if="this.status === 'acceptationLivraison'">
-      <base-button mode="drop">Annuler</base-button>
+      <button @click="annulerCommandeEmit" class="btn btn-outline-danger">
+        Annuler
+      </button>
     </div>
     <div class="actions" v-else-if="this.status === 'acceptationCommande'">
-      <base-button mode="flat">Accepter</base-button>
+      <button @click="acceptCommandeEmit" class="btn btn-outline-success">
+        Accepter
+      </button>
     </div>
   </li>
 </template>
 
 <script>
-import BaseButton from "@/components/ui/BaseButton";
 import faker from "faker";
 import BaseBadge from "@/components/ui/BaseBadge";
 export default {
   name: "CommandeItem",
-  components: { BaseBadge, BaseButton },
+  components: { BaseBadge },
   props: ["id", "status", "address", "contactInfo", "restaurantInfo", "price"],
   computed: {
     fakeAddress() {
@@ -39,6 +42,14 @@ export default {
       else if (this.status === "acquittementLivraison")
         return "Livraison faite";
       else return "Annuler";
+    },
+  },
+  methods: {
+    acceptCommandeEmit() {
+      this.$emit("acceptCommande", this.id);
+    },
+    annulerCommandeEmit() {
+      this.$emit("annulerCommande", this.id);
     },
   },
 };
