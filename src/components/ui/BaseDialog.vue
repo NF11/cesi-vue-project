@@ -1,5 +1,5 @@
 <template>
-  <teleport to="body">
+  <div to="body">
     <div v-if="show" @click="tryClose" class="backdrop"></div>
     <dialog open v-if="show">
       <header>
@@ -16,7 +16,7 @@
         </slot>
       </menu>
     </dialog>
-  </teleport>
+  </div>
 </template>
 
 <script>
@@ -36,13 +36,13 @@ export default {
       default: false,
     },
   },
-  emits: ['close'],
+  emits: ["close"],
   methods: {
     tryClose() {
       if (this.fixed) {
         return;
       }
-      this.$emit('close');
+      this.$emit("close");
     },
   },
 };

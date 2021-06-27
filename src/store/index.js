@@ -9,7 +9,7 @@ axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
 export default new Vuex.Store({
   state: () => ({
     user: {
-      _id: "60d3d8195adfde7b89689ca0",
+      _id: "60d3d8195adfde7b89689c9e",
       name: "trcommerciale566",
       email: "strincommercial56@gmail.com",
       phone: "0784654645564",
@@ -17,6 +17,7 @@ export default new Vuex.Store({
       password: "string",
     },
     commandes: [],
+    MyCommandes: [],
   }),
   mutations: {
     setLivreur(state, payload) {
@@ -24,6 +25,9 @@ export default new Vuex.Store({
     },
     setCommande(state, payload) {
       state.commandes = payload;
+    },
+    setMyCommandes(state, payload) {
+      state.MyCommandes = payload;
     },
   },
   actions: {
@@ -39,8 +43,16 @@ export default new Vuex.Store({
     },
     async loadCommandes(context) {
       try {
-        let result = await axios.get(baseUrl + "/commandes", {});
+        let result = await axios.get(baseUrl + "/commandes");
         context.commit("setCommande", result.data);
+      } catch (err) {
+        throw new Error("impossible d'accéder a la ressource");
+      }
+    },
+    async loadMyCommandes(context, userId) {
+      try {
+        let result = await axios.get(baseUrl + "/commandes/livreur/" + userId);
+        context.commit("setMyCommandes", result.data);
       } catch (err) {
         throw new Error("impossible d'accéder a la ressource");
       }
@@ -50,8 +62,17 @@ export default new Vuex.Store({
     getCommandes(state) {
       return state.commandes;
     },
+    getUser(state) {
+      return state.user;
+    },
+    getMyCommandes(state) {
+      return state.MyCommandes;
+    },
     hasCommandes(state) {
       return state.commandes && state.commandes.length > 0;
+    },
+    hasMyCommandes(state) {
+      return state.MyCommandes && state.MyCommandes.length > 0;
     },
     isLogin(state) {
       return !!state.user;
