@@ -3,16 +3,17 @@ import VueRouter from "vue-router";
 import Me from "@/views/livreur/Me";
 import CommandesList from "@/views/commandes/CommandesList";
 import MyCommandeList from "@/views/commandes/MyCommandeList";
-import Register from "@/views/livreur/Register";
 import NotFound from "@/views/NotFound";
 import Login from "@/views/livreur/Login";
+import store from "../store/index";
+import Parrainer from "@/views/livreur/Parrainer";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    redirect: "/commandes",
+    redirect: "/login",
   },
   {
     path: "/me",
@@ -30,10 +31,15 @@ const routes = [
     component: MyCommandeList,
   },
   {
-    path: "/inscription",
-    name: "Register",
-    component: Register,
+    path: "/parrainage",
+    name: "Parrainage",
+    component: Parrainer,
   },
+  // {
+  //   path: "/inscription",
+  //   name: "Register",
+  //   component: Register,
+  // },
   {
     path: "/login",
     name: "Login",
@@ -43,21 +49,18 @@ const routes = [
     path: "/:notFound(.*)",
     component: NotFound,
   },
-  // {
-  //   path: "/about",
-  //   name: "About",
-  //   // route level code-splitting
-  //   // this generates a separate chunk (about.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: () =>
-  //     import(/* webpackChunkName: "about" */ "../views/About.vue"),
-  // },
 ];
 
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes,
+});
+
+router.beforeEach(function (to, _, next) {
+  if (to.name !== "Login" && !store.getters.isLogin) {
+    next("/login");
+  } else next();
 });
 
 export default router;

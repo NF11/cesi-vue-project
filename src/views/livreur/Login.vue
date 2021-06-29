@@ -1,5 +1,8 @@
 <template>
   <section>
+    <base-dialog :show="!!error" title="Erreur" @close="handleError">
+      <p>{{ error }}</p>
+    </base-dialog>
     <base-card>
       <h2>Connexion</h2>
       <login-form @sava-data="saveData"></login-form>
@@ -12,9 +15,21 @@ import LoginForm from "@/components/Livreurs/LoginForm";
 export default {
   name: "Login",
   components: { LoginForm, BaseCard },
+
+  data() {
+    return { isLoading: false, error: null };
+  },
   methods: {
-    saveData(data) {
-      this.$store.dispatch("registerLivreur", data);
+    async saveData(data) {
+      try {
+        await this.$store.dispatch("loginUser", data);
+        await this.$router.replace("/my-commande");
+      } catch (e) {
+        this.error = "Identifiant incorrect";
+      }
+    },
+    handleError() {
+      this.error = null;
     },
   },
 };

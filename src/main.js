@@ -8,6 +8,7 @@ import BaseButton from "./components/ui/BaseButton.vue";
 import BaseBadge from "./components/ui/BaseBadge.vue";
 import BaseSpinner from "./components/ui/BaseSpinner.vue";
 import BaseDialog from "./components/ui/BaseDialog.vue";
+import vuetify from "./plugins/vuetify";
 
 Vue.config.productionTip = false;
 Vue.component("base-card", BaseCard);
@@ -20,5 +21,6 @@ new Vue({
   router,
   store,
   config,
+  vuetify,
   render: (h) => h(App),
 }).$mount("#app");

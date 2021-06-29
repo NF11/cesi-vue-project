@@ -6,16 +6,10 @@ Vue.use(Vuex);
 const baseUrl = "http://localhost:5000";
 
 axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
+// axios.defaults.withCredentials = true;
 export default new Vuex.Store({
   state: () => ({
-    user: {
-      _id: "60d3d8195adfde7b89689c9e",
-      name: "trcommerciale566",
-      email: "strincommercial56@gmail.com",
-      phone: "0784654645564",
-      role: "commercial",
-      password: "string",
-    },
+    user: null,
     commandes: [],
     MyCommandes: [],
   }),
@@ -40,6 +34,30 @@ export default new Vuex.Store({
         password: payload.password,
       };
       context.commit("setLivreur", livreur);
+    },
+
+    async loginUser(context, payload) {
+      try {
+        let result = await axios.post(
+          baseUrl + "/signIn",
+          {
+            email: payload.email,
+            password: payload.password,
+          }
+          // ,
+          // {
+          //   withCredentials: false,
+          // }
+        );
+        if (result.data.role !== "livreur")
+          throw new Error(
+            "Vous n'avez pas le droit d'acceder a cette application"
+          );
+        context.commit("setLivreur", result.data);
+      } catch (err) {
+        console.log(err.message);
+        throw new Error("erreur avec les identifiant fourni");
+      }
     },
     async loadCommandes(context) {
       try {

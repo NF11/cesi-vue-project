@@ -1,13 +1,21 @@
 <template>
   <header>
     <nav>
-      <h1><router-link to="/">Liste des commandes</router-link></h1>
+      <h1 v-if="isLogin">
+        <router-link to="/commandes">Liste des commandes</router-link>
+      </h1>
+      <h1 v-else><router-link to="/">Livreur App</router-link></h1>
       <ul>
-        <li><router-link to="/my-commande">Mes commandes</router-link></li>
-        <li><router-link to="/me">Mon profile</router-link></li>
-        <li><router-link to="/my-commande">Parrainage</router-link></li>
-        <li><router-link to="/inscription">Inscription</router-link></li>
-        <li><router-link to="/login">Connexion</router-link></li>
+        <li v-if="isLogin">
+          <router-link to="/my-commande">Mes commandes</router-link>
+        </li>
+        <li v-if="isLogin"><router-link to="/me">Mon profile</router-link></li>
+        <li v-if="isLogin">
+          <router-link to="/parrainage">Parrainage</router-link>
+        </li>
+        <li v-if="!isLogin">
+          <router-link to="/login">Connexion</router-link>
+        </li>
       </ul>
     </nav>
   </header>
@@ -16,6 +24,12 @@
 <script>
 export default {
   name: "TopMenu",
+
+  computed: {
+    isLogin() {
+      return this.$store.getters.isLogin;
+    },
+  },
 };
 </script>
 

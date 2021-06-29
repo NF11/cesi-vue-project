@@ -1,21 +1,20 @@
 <template>
   <section>
     <base-card>
-      <h2>Inscription en tant que livreur</h2>
-      <livreur-form @sava-data="saveData"></livreur-form>
+      <h2>Parrainage un livreur</h2>
+      <parrainer-from @sava-data="saveData"></parrainer-from>
     </base-card>
   </section>
 </template>
 <script>
-import LivreurForm from "@/components/Livreurs/LivreurForm";
+import ParrainerFrom from "@/components/Livreurs/ParrainerForm";
 import BaseCard from "@/components/ui/BaseCard";
 export default {
-  name: "Register",
-  components: { BaseCard, LivreurForm },
+  name: "Parrainer",
+  components: { BaseCard, ParrainerFrom },
   methods: {
     saveData(data) {
       this.$store.dispatch("registerLivreur", data);
-      this.$route.replace("/login");
     },
   },
 };

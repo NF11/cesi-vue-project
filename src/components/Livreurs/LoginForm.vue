@@ -10,16 +10,14 @@
       <input type="password" id="password" v-model="password.val" />
       <p v-if="!password.isValid">Le champ est vide</p>
     </div>
-    <base-button>Connexion</base-button>
+    <button class="btn btn-outline-success">Connexion</button>
   </form>
 </template>
 
 <script>
-import BaseButton from "@/components/ui/BaseButton";
 export default {
   emits: ["sava-data"],
   name: "LoginForm",
-  components: { BaseButton },
   data() {
     return {
       email: {
@@ -50,8 +48,8 @@ export default {
 
       if (!this.formIsValid) return;
       const fromData = {
-        email: this.email,
-        password: this.password,
+        email: this.email.val,
+        password: this.password.val,
       };
       this.$emit("sava-data", fromData);
     },

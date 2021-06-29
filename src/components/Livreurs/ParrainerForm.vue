@@ -15,18 +15,8 @@
       <input type="tel" id="tel" v-model="tel.val" />
       <p v-if="!tel.isValid">Le champ est vide</p>
     </div>
-    <div class="form-control" :class="{ invalid: !password.isValid }">
-      <label for="password">Mot de passe</label>
-      <input type="password" id="password" v-model="password.val" />
-      <p v-if="!password.isValid">Le champ est vide</p>
-    </div>
-    <div class="form-control" :class="{ invalid: !password2.isValid }">
-      <label for="password2">Confirmation</label>
-      <input type="password" id="password2" v-model="password2.val" />
-      <p v-if="!password2.isValid">Le mot de passe est different</p>
-    </div>
     <p v-if="!formIsValid">Corrigiez les erreur dans le formulaire merci</p>
-    <base-button>Modifier</base-button>
+    <base-button>Parrainer</base-button>
   </form>
 </template>
 
@@ -34,27 +24,19 @@
 import BaseButton from "@/components/ui/BaseButton";
 export default {
   emits: ["sava-data"],
-  name: "LivreurForm",
+  name: "ParrainerForm",
   components: { BaseButton },
   data() {
     return {
       nom: {
-        val: this.$store.getters.getUser.name,
-        isValid: true,
-      },
-      email: {
-        val: this.$store.getters.getUser.email,
-        isValid: true,
-      },
-      tel: {
-        val: this.$store.getters.getUser.phone,
-        isValid: true,
-      },
-      password: {
         val: "",
         isValid: true,
       },
-      password2: {
+      email: {
+        val: "",
+        isValid: true,
+      },
+      tel: {
         val: "",
         isValid: true,
       },
@@ -68,20 +50,16 @@ export default {
         this.nom.isValid = false;
         this.formIsValid = false;
       }
+      if (this.prenom.val === "") {
+        this.prenom.isValid = false;
+        this.formIsValid = false;
+      }
       if (this.email.val === "") {
         this.email.isValid = false;
         this.formIsValid = false;
       }
       if (this.tel.val === "") {
         this.tel.isValid = false;
-        this.formIsValid = false;
-      }
-      if (this.password.val === "") {
-        this.password.isValid = false;
-        this.formIsValid = false;
-      }
-      if (this.password2.val !== this.password.val) {
-        this.password2.isValid = false;
         this.formIsValid = false;
       }
     },
@@ -92,8 +70,8 @@ export default {
       const fromData = {
         name: this.nom.val,
         email: this.email.val,
-        phone: this.tel.val,
-        password: this.password.val,
+        tel: this.tel.val,
+        role: "livreur",
       };
       this.$emit("sava-data", fromData);
     },
